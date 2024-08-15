@@ -1,6 +1,9 @@
-import os
-from pydub import AudioSegment
+import numpy as np
 import random
+import os
+from scipy.io import wavfile
+from pydub import AudioSegment
+from pydub.silence import detect_silence
 import torch
 import torchaudio
 from transformers import AutoProcessor, AutoModelForSpeechSeq2Seq

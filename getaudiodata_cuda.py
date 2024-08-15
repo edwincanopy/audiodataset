@@ -1,21 +1,18 @@
-import numpy as np
-import random
 import os
-from scipy.io import wavfile
 from pydub import AudioSegment
-from pydub.silence import detect_silence
+import random
 import torch
 import torchaudio
 from transformers import AutoProcessor, AutoModelForSpeechSeq2Seq
 from datasets import Dataset
-import sys
+from tqdm import tqdm  # Import tqdm for the progress bar
 
 # Set device to GPU if available
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 print(device)
 
 # ---
-AUDIO_FOLDER = sys.argv[1]  # contains wav files
+AUDIO_FOLDER = 'wav_files'  # contains wav files
 OUTPUT_FOLDER = 'clips'  # contains split audio clips and their transcriptions
 BATCH_SIZE = 5
 
@@ -111,7 +108,8 @@ def main():
     split_audio = [f for f in os.listdir(OUTPUT_FOLDER) if f.endswith('.wav')]
     split_audio.sort()
 
-    for i in range(0, len(split_audio), BATCH_SIZE):
+    # Use tqdm to display the progress bar
+    for i in tqdm(range(0, len(split_audio), BATCH_SIZE), desc="Processing audio batches"):
         batch = split_audio[i:i+BATCH_SIZE]
         batch = [os.path.join(OUTPUT_FOLDER, f) for f in batch]
 

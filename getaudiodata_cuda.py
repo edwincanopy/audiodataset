@@ -8,13 +8,14 @@ import torch
 import torchaudio
 from transformers import AutoProcessor, AutoModelForSpeechSeq2Seq
 from datasets import Dataset
+import sys
 
 # Set device to GPU if available
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 print(device)
 
 # ---
-AUDIO_FOLDER = 'wav_files'  # contains wav files
+AUDIO_FOLDER = sys.argv[1]  # contains wav files
 OUTPUT_FOLDER = 'clips'  # contains split audio clips and their transcriptions
 BATCH_SIZE = 5
 
